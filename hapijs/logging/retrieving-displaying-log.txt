@@ -1,0 +1,31 @@
+
+- The hapi server object emits events for each log event.
+- You can use the standard EventEmitter API to listen for such events and display them however you wish.
+
+server.events.on('log', (event, tags) => {
+
+    if (tags.error) {
+        console.log(`Server error: ${event.error ? event.error.message : 'unknown'}`);
+    }
+});
+
+***** Events logged with server.log() will emit a log event and
+***** events logged with request.log() will emit a request event.
+
+- You can retrive all logs for a particular request at once via request.logs.
+- This will be an array containing all the logged request events.
+- You must first set the logs.collect option to true on the route, otherwise this array will be empty.
+
+server.route({
+    method: 'GET',
+    path: '/',
+    options: {
+        logs: {
+            collect: true
+        }
+    },
+    handler: function (request, h) {
+
+        return 'hello';
+    }
+});

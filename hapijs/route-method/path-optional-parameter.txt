@@ -1,0 +1,38 @@
+server.route({
+    method: 'GET',
+    path: '/hello/{user}',
+    handler: function (request, h) {
+
+        return `Hello ${encodeURIComponent(request.params.user)}!`;
+    }
+});
+
+In the above example, the user parameter is required:
+a request to /hello/bob or /hello/susan will work,
+but a request to /hello will not.
+In order to make a parameter optional,
+put a question mark at the end of the parameter's name.
+Here is the same route, but updated to make the user parameter optional:
+
+server.route({
+    method: 'GET',
+    path: '/hello/{user?}',
+    handler: function (request, h) {
+
+        const user = request.params.user ?
+            encodeURIComponent(request.params.user) :
+            'stranger';
+
+        return `Hello ${user}!`;
+    }
+});
+
+Now a request to /hello/mary will reply with Hello mary! and
+a request to just /hello will reply with Hello stranger!.
+It is important to be aware that only the last named parameter in a path can be optional.
+That means that /{one?}/{two}/ is an invalid path,
+since in this case there is another parameter after the optional one.
+You may also have a named parameter covering only part of a segment of the path
+for instance /{filename}.jpg is valid.
+You may also have multiple parameters per segment. provided there is non-parameter separtor between them,
+meaning /{filename}.{ext} is valid whereas /{filename}{ext} is not.

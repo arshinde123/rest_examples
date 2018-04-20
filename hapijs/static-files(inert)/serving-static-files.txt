@@ -1,0 +1,26 @@
+- Inevitably while building any web application, the need arises to serve a simple file from disk.
+- There's a hapi plugin called inert that adds this functionality to hapi through the use of additional handlers.
+
+	h.file(path, [options])
+
+	Firstly, let's see how to use the h.file() method:
+
+	const start = async () => {
+
+    await server.register(require('inert'));
+
+    server.route({
+        method: 'GET',
+        path: '/picture.jpg',
+        handler: function (request, h) {
+
+            return h.file('/path/to/picture.jpg');
+        }
+    });
+
+    await server.start();
+
+    console.log('Server running at:', server.info.uri);
+};
+
+start();

@@ -1,0 +1,76 @@
+- hapi has an extensive and powerful plugin system that
+- allows you to very easily break your application up into isolated pieces of business logic, and reusable utilities.
+
+#### Creating plugin
+
+- Plugins are very simple to write.
+- At their core they are an object with a register property,
+- that is a function with the signature async function (server, options).
+- Additionally the plugin object has a required name property and several optional properties including version.
+
+// simple plugin example
+
+'use strict';
+
+const myPlugin = {
+    name: 'myPlugin',
+    version: '1.0.0',
+    register: async function (server, options) {
+
+        // Create a route for example
+
+        server.route({
+            method: 'GET',
+            path: '/test',
+            handler: function (request, h) {
+
+                return 'hello, world';
+            }
+        });
+
+        // etc ...
+        await someAsyncMethods();
+    }
+};
+
+
+- Or when written as an external module, you can specify a pkg property:
+
+
+'use strict';
+
+exports.plugin = {
+    pkg: require('./package.json'),
+    register: async function (server, options) {
+
+        // Create a route for example
+
+        server.route({
+            method: 'GET',
+            path: '/test',
+            handler: function (request, h) {
+
+                return 'hello, world';
+            }
+        });
+
+        // etc...
+        await someAsyncMethods();
+    }
+};
+
+- Note that in the first example, we set the name and version properties explicitly,
+- however in the second we set a pkg parameter with the contents of package.json as its value.
+- Either method is acceptable.
+
+
+- When written as a module, a plugin can either be top-level module export
+- i.e module.exports = { register, name, version } or
+- if you want your module to export more than a hapi plugin,
+- it can be exported as exports.plugin = { register, name, version }.
+
+- Additionally, the plugin object may contain the property multiple that
+- when set to true tells hapi that it is safe to register your plugin more than once in the same server.
+
+- Another available property is once.
+- When set to true will mean hapi ignores subsequent registers of the same plugin without throwing an error.

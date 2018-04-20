@@ -1,0 +1,88 @@
+
+##### Input parameters
+
+- The first type of validation hapi can perform is input validation.
+- This is defined in the options object on a route,
+- and is able to validate:
+ 					1) headers
+					2) path parameters
+					3) query parameters
+					4) payload data
+
+
+// Example:
+
+server.route({
+    method: 'GET',
+    path: '/hello/{name}',
+    handler: function (request, h) {
+
+        return `Hello ${request.params.name}!`;
+    },
+    options: {
+        validate: {
+            params: {
+                name: Joi.string().min(3).max(10)
+            }
+        }
+    }
+});
+
+#### Path parameters
+
+- As you can see here, we've passed a validate.params option to the options object,
+- this is how we tell hapi that the named parameter specified in the path should be validated.
+- Joi's syntax is very simple and clear to read,
+- the validator we passed here makes sure that
+- the parameter is a string with a minimum length of 3 and a maximum length of 10.
+
+
+- With this configuration,
+- if we make a request to /hello/jennifer we will get the expected Hello jennifer! reply,
+- however if we make a request to /hello/a we will get an HTTP 400 response that looks like the following:
+
+{
+    "error": "Bad Request",
+    "message": "Invalid request params input",
+    "statusCode": 400
+}
+
+
+#### Query parameters
+
+- To validate query parameters, we simply specify a validate.query option in the route's options,
+- and we will get similar effects.
+- *** By default hapi will not validate anything.
+- If you specify a validator for even one query parameter,
+- that means you must specify a validator for all possible query parameters that you would like to accept.
+
+// 	For example, if you have a route that returns a list of blog posts
+		and you would like the user to limit their result set by count, you could use the following configuration:
+
+		server.route({
+		    method: 'GET',
+		    path: '/posts',
+		    handler: function (request, h) {
+
+		        return posts.slice(0, request.query.limit);
+		    },
+		    options: {
+		        validate: {
+		            query: {
+		                limit: Joi.number().integer().min(1).max(100).default(10)
+		            }
+		        }
+		    }
+		});
+
+
+#### Headers
+
+- You may validate incoming headers as well, with a validate.headers option.
+
+
+#### Payload parameters
+
+- Also valid is the validate.payload option,
+- which will validate payload data sent to a route by the user.
+- It works exactly the same way as query parameters, in that if you validate one key, you must validate them all.

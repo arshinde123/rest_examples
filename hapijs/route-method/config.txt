@@ -1,0 +1,27 @@
+- Aside from these three basic elements, you may also specify an options parameter for each route.
+- This is where you configure things like validation, authentication,
+- prerequisites, payload processing, and caching options.
+
+- Here we will look at a couple of options designed to help generate documentation.
+
+server.route({
+    method: 'GET',
+    path: '/hello/{user?}',
+    handler: function (request, h) {
+
+        const user = request.params.user ?
+            encodeURIComponent(request.params.user) :
+            'stranger';
+
+        return `Hello ${user}!`;
+    },
+    options: {
+        description: 'Say hello!',
+        notes: 'The user parameter defaults to \'stranger\' if unspecified',
+        tags: ['api', 'greeting']
+    }
+});
+
+- Functionally speaking these options have no effect,
+- however they can be very valuable when using a plugin like lout to generate documentation for API.
+- The metadata is associated with the route, and becomes available for inspection or display later.

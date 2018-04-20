@@ -1,0 +1,39 @@
+
+Relative Paths
+
+- To simplify things, especially if you have multiple routes that respond with files,
+- you can configure a base path in your server and only pass relative paths to h.file():
+
+
+'use strict';
+
+const Hapi = require('hapi');
+const Path = require('path');
+
+const server = Hapi.server({
+    routes: {
+        files: {
+            relativeTo: Path.join(__dirname, 'public')
+        }
+    }
+});
+
+const start = async () => {
+
+    await server.register(require('inert'));
+
+    server.route({
+        method: 'GET',
+        path: '/picture.jpg',
+        handler: function (request, h) {
+
+            return h.file('picture.jpg');
+        }
+    });
+
+    await server.start();
+
+    console.log('Server running at:', server.info.uri);
+};
+
+start();

@@ -1,0 +1,11 @@
+- hapi has a debug mode, which is a pain-free way to have your log events printed to the console,
+- without configuring additional plugins or writing logging code yourself.
+
+- By default, the only errors debug mode will print to console are uncaught errors in user code,
+- and runtime errors from incorrect implementation of hapi's API.
+- You can configure your server to print request events based on tag,
+- however. For example, if you wanted to print any error in a request you would configure your server as follows:
+
+	const server = Hapi.server({ debug: { request: ['error'] } });
+
+	

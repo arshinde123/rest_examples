@@ -1,0 +1,29 @@
+Along with optional path parameters, you can also allow parameters that match multiple segments.
+In order to do this, we use an asterisk and a number. For example:
+
+server.route({
+    method: 'GET',
+    path: '/hello/{user*2}',
+    handler: function (request, h) {
+
+        const userParts = request.params.user.split('/');
+        return `Hello ${encodeURIComponent(userParts[0])} ${encodeURIComponent(userParts[1])}!`;
+    }
+});
+
+- With this configuration, a request to /hello/john/doe will reply with the string Hello john doe!.
+- The important thing to note here is that the parameter is actually the string "john/doe".
+- That's why we did a split on that character to get the two separate parts.
+- The number after the asterisk represents how many path segments should be assigned to the parameter.
+- You can also omit the number entirely, and the parameter will match any number of segments available.
+- Like the optional parameters,
+- a wildcard parameter (for example /{files*}) may only appear as the last parameter in your path.
+
+
+- When determining what handler to use for a particular request,
+- hapi searches paths in order from most specific to least specific.
+- That means if you have two routes,
+- one with the path /filename.jpg and a second route /filename.{ext}
+- a request to /filename.jpg will match the first route, and not the second.
+- This also means that a route with the path /{files*} will be the last route tested,
+- and will only match if all other routes fail.

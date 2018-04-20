@@ -1,0 +1,140 @@
+### API's
+
+#### Create Todo
+
+**Method** - POST
+
+**Path** - /todo
+
+**Description** - A create todo API must receive an object which should have title, description.
+If API gets called without an title error should be thrown by API.
+If the title is present in API call, given API should create a todo.
+description is optional parameter receive from client.
+
+
+**body params**
+
+| name 				| Type 					| Required 												| Default 			| Description
+| title				| String				| Yes (character: min-3 max-150) 	| -							| name of the todo
+| description	|	String				|	No (character: min-10 max-500)	|	-							| description about Todo
+
+
+**Response Types**
+1.Success (200) -> {
+		_id		: ''
+		title	:	''
+		description	:	''
+		status:	''
+	}
+2.	Internal Server Error (500)
+3.	Not Found (404)
+4. 	Validation Error (409)
+
+
+
+#### Get Todo List
+
+**Method** - GET
+
+**Path** - /todo
+
+**description** - A get todo does not receive any parameter. when get API called, it just simply returns all todos
+present in database. If elements does not exist in database and API gets called , error should be thrown by API.
+
+**Params** - does not require any parameter.
+
+**Response Types**
+1. Success (200) -> [{ _id:'', title: '', description: '', status: '' }]
+2. Internal Server Error (500)
+3. Not Found (404)
+
+
+
+#### Update Todo
+
+**Method** - PUT
+
+**Path** - /todo/:id
+
+**Description** -  A update todo API must receive an todo to be updated from client which should have _id
+ with modified title, description, status. If API gets called without _id, error should be thrown by API.
+ If _id with modified todo is present in API call, given API should update todo.
+
+
+
+**url params**
+
+| name 						| Type 					| Required 				| Default 			| Description
+|	_id							| String				| Yes							| -							| _id of todo to be updated
+
+
+ **body params**
+
+ | name 						| Type 					| Required 															| Default 			| Description
+ | title						| String				| Yes(character: min-3 max-150)					| -							| name of the todo
+ | description			|	String				|	No(character: max-500)								|	-							| description about Todo
+ | status						|	String				|	Yes (either 'completed' or 'pending')	| -							| status of todo
+
+
+ **Response Types**
+1.Success (200) -> {
+		_id		: ''
+		title	:	''
+		name	:	''
+		status:	''
+	}
+2. Validation Error (409)
+3. Internal Server Error (500)
+4. Not Found (404)
+
+
+
+
+#### Delete Todo
+
+**Method** - DELETE
+
+**Path** - /todo/:id
+
+**Description** - A delete todo API must receive an _id which should delete an todo from database.
+If API gets called without an _id, error should be thrown by API.
+// If _id is present in API call, given API should check _id is present in database.
+If condition satisfy (i.e exists _id in database) todo will be remove from database.
+
+
+**url params**
+
+| name 						| Type 					| Required 				| Default 			| Description
+|	_id							| String				| Yes							| -							| _id of todo to be deleted
+
+
+**Response Types**
+1. Success (200)
+2. Validation Error (409)
+3. Internal Server Error (500)
+4. Not Found (404)
+
+
+
+
+#### Get Todo
+
+**Method** - Get
+
+**Path** - /todo/:id
+
+**Description** - A get todo API must receive an _id which should retrieve an todo from database.
+If API gets called without an _id, error should be thrown API.
+// If _id is present in API call, given API should check _id is present in database.
+If condition satisfy (i.e exists _id in database) todo will be retrieved from database.
+
+**url params**
+
+| name 						| Type 					| Required 				| Default 			| Description
+|	_id							| String				| Yes							| -							| _id of todo to be retrieve
+
+**Response Types**
+1. Success (200)
+2. Validation Error (409)
+3. Internal Server Error (500)
+4. Not Found (404)

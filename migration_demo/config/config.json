@@ -1,0 +1,23 @@
+{
+  "development": {
+    "username": "internadmin",
+    "password": "Selenite#1",
+    "database": "intern",
+    "host": "192.168.1.231",
+    "dialect": "mysql"
+  },
+  "test": {
+		"username": "internadmin",
+    "password": "Selenite#1",
+    "database": "intern",
+    "host": "192.168.1.231",
+    "dialect": "mysql"
+  },
+  "production": {
+		"username": "internadmin",
+    "password": "Selenite#1",
+    "database": "intern",
+    "host": "192.168.1.231",
+    "dialect": "mysql"
+  }
+}

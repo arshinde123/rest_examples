@@ -1,0 +1,40 @@
+
+- Plugins can be loaded one at a time, or as a group in an array, by the server.register() method,
+
+//for example:
+
+const start = async function () {
+
+    // load one plugin
+
+    await server.register(require('myplugin'));
+
+    // load multiple plugins
+
+    await server.register([require('myplugin'), require('yourplugin')]);
+};
+
+- To pass options to your plugin, we instead pass an object with register and options keys, such as:
+
+const start = async function () {
+
+    await server.register({
+        plugin: require('myplugin'),
+        options: {
+            message: 'hello'
+        }
+    });
+};
+
+- These objects can also be passed in an array:
+
+const start = async function () {
+
+    await server.register([{
+        plugin: require('plugin1'),
+        options: {}
+    }, {
+        plugin: require('plugin2'),
+        options: {}
+    }]);
+};

@@ -1,0 +1,8 @@
+
+- The register method accepts two parameters, server and options:
+
+- The options parameter is simply whatever options the user passes to your plugin
+- when calling server.register(plugin, options).
+- No changes are made and the object is passed directly to your register method.
+
+- The server object is a reference to the server your plugin is being loaded in.
